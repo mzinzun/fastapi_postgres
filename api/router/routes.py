@@ -17,7 +17,10 @@ def get_db():
         db.close()
 
 @router.post("/users/", response_model=schemas.User)
-def create_user(user: schemas.UserCreate, db: Session = Depends(get_db)):
+def create_user(
+    user: schemas.UserCreate,
+    db: Session = Depends(get_db)
+    ):
     db_user = queries.get_user_by_username(db, username=user.username)
     if db_user:
         raise HTTPException(status_code=400, detail="User already registered")
